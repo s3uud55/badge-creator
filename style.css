@@ -306,16 +306,22 @@ html, body{
 .band-watermark{
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  white-space: pre;
+  overflow: hidden;
+  pointer-events: none;
+}
+.watermark-word{
+  position: absolute;
+  left: 50%;
+  width: 24mm;
+  text-align: center;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  transform-origin: center center;
+  white-space: nowrap;
   font-weight: 700;
   font-size: 3.4mm;
   letter-spacing: 0.06em;
   color: var(--brand-watermark);
+  direction: ltr;
 }
 
 .lanyard-slot{
@@ -506,6 +512,7 @@ html, body{
     top: 0;
     margin: 0;
   }
+  .lanyard-slot{ display: none !important; }
 }
 
 /* ===================== Responsive ===================== */

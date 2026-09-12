@@ -179,8 +179,15 @@
    * ========================================================== */
   function updateBandWatermark() {
     var word = (state.brand || 'HALA').trim() || 'HALA';
-    var unit = word + '          ';
-    el.bandWatermark.textContent = unit.repeat(8);
+    var count = 5;
+    el.bandWatermark.textContent = '';
+    for (var i = 0; i < count; i++) {
+      var span = document.createElement('span');
+      span.className = 'watermark-word';
+      span.style.top = (((i + 0.5) / count) * 100).toFixed(2) + '%';
+      span.textContent = word;
+      el.bandWatermark.appendChild(span);
+    }
   }
 
   /* ============================================================
@@ -206,11 +213,11 @@
     }
     var count = qr.getModuleCount();
     var cell = size / count;
-    var deep = getComputedStyle(document.documentElement).getPropertyValue('--brand-deep').trim() || '#2E6B63';
+    var moduleColor = '#111111'; // near-black: scan contrast must not depend on the picked brand color
 
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, size, size);
-    ctx.fillStyle = deep;
+    ctx.fillStyle = moduleColor;
 
     // reserve a blank square in the center for the brand mark
     var holeSpan = Math.floor(count * 0.30);
@@ -235,7 +242,7 @@
     roundRect(ctx, boxX, boxY, boxSize, boxSize, radius);
     ctx.fill();
 
-    ctx.fillStyle = deep;
+    ctx.fillStyle = moduleColor;
     var label = (state.brand || 'HALA').trim().slice(0, 6) || 'HALA';
     var fontSize = Math.max(10, Math.round(boxSize * 0.34));
     ctx.font = '700 ' + fontSize + 'px Cairo, sans-serif';
@@ -513,6 +520,10 @@
   }
 
   function renderExportCanvas() {
+    // the lanyard-slot guide is a preview-only positioning aid — never let it
+    // reach a rasterized export, regardless of the checkbox state.
+    var wasSlotHidden = el.lanyardSlot.classList.contains('hidden-slot');
+    el.lanyardSlot.classList.add('hidden-slot');
     return waitForFontsAndPaint().then(function () {
       return html2canvas(el.exportRoot, {
         backgroundColor: '#ffffff',
@@ -520,6 +531,8 @@
         useCORS: true,
         logging: false
       });
+    }).finally(function () {
+      el.lanyardSlot.classList.toggle('hidden-slot', wasSlotHidden);
     });
   }
 
