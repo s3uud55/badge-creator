@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مولّد بطاقات الموظفين — HALA</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="app-header">
+  <h1>مولّد بطاقات هوية الموظفين</h1>
+  <p class="app-sub">أدخلي بيانات الموظف، ارفعي الصورة، واحصلي على بطاقة جاهزة للطباعة</p>
+</header>
+
+<main class="layout">
+
+  <!-- ============ FORM PANE ============ -->
+  <section class="pane form-pane" aria-label="بيانات البطاقة">
+    <form id="card-form">
+
+      <fieldset class="group">
+        <legend>الهوية البصرية</legend>
+
+        <label class="field">
+          <span>اسم الجهة / العلامة</span>
+          <input type="text" id="f-brand" value="HALA" maxlength="30">
+        </label>
+
+        <label class="field">
+          <span>شعار (اختياري — يستبدل اسم العلامة)</span>
+          <input type="file" id="f-logo" accept="image/*">
+        </label>
+        <button type="button" id="f-logo-clear" class="btn-link" hidden>إزالة الشعار</button>
+
+        <label class="field">
+          <span>لون العلامة</span>
+          <input type="color" id="f-color" value="#2E6B63">
+        </label>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>بيانات الموظف</legend>
+
+        <label class="field">
+          <span>الاسم (عربي)</span>
+          <input type="text" id="f-name-ar" dir="rtl" placeholder="اسم الموظف">
+        </label>
+        <label class="field">
+          <span>Name (English)</span>
+          <input type="text" id="f-name-en" dir="ltr" placeholder="Employee name">
+        </label>
+
+        <label class="field">
+          <span>القسم (عربي)</span>
+          <input type="text" id="f-dept-ar" dir="rtl" value="تقنية المعلومات">
+        </label>
+        <label class="field">
+          <span>Department (English)</span>
+          <input type="text" id="f-dept-en" dir="ltr" value="Information Technology">
+        </label>
+
+        <label class="field">
+          <span>الرقم الوظيفي</span>
+          <input type="text" id="f-id" dir="ltr" value="ID-784532">
+        </label>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>الصورة الشخصية</legend>
+
+        <div id="photo-drop" class="photo-drop" tabindex="0">
+          <p>اسحبي وأفلتي صورة هنا، أو</p>
+          <label class="btn-secondary">
+            اختيار صورة
+            <input type="file" id="f-photo" accept="image/*" hidden>
+          </label>
+        </div>
+
+        <div id="photo-controls" class="photo-controls" hidden>
+          <p class="hint">اسحبي الصورة داخل الإطار لضبط الموضع</p>
+          <label class="field zoom-field">
+            <span>التكبير</span>
+            <input type="range" id="f-zoom" min="1" max="3" step="0.01" value="1">
+          </label>
+          <button type="button" id="f-photo-clear" class="btn-link">إزالة الصورة</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>رمز QR</legend>
+        <label class="field">
+          <span>محتوى الرمز (افتراضيًا الرقم الوظيفي)</span>
+          <input type="text" id="f-qr" dir="ltr" placeholder="سيُستخدم الرقم الوظيفي تلقائيًا">
+        </label>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>خيارات الطباعة</legend>
+        <label class="checkbox-field">
+          <input type="checkbox" id="f-bleed">
+          <span>علامات القص والحواف (3مم نزيف للمطابع)</span>
+        </label>
+        <label class="checkbox-field">
+          <input type="checkbox" id="f-slot" checked>
+          <span>إظهار دليل فتحة الحبل (لانيارد)</span>
+        </label>
+      </fieldset>
+
+    </form>
+  </section>
+
+  <!-- ============ PREVIEW PANE ============ -->
+  <section class="pane preview-pane" aria-label="معاينة البطاقة">
+    <div class="preview-stage">
+      <div id="export-root" class="export-root">
+        <div class="crop-marks" aria-hidden="true">
+          <span class="mark h tl"></span><span class="mark v tl"></span>
+          <span class="mark h tr"></span><span class="mark v tr"></span>
+          <span class="mark h bl"></span><span class="mark v bl"></span>
+          <span class="mark h br"></span><span class="mark v br"></span>
+        </div>
+        <div id="card" class="card">
+          <div class="card-band" aria-hidden="true">
+            <div id="band-watermark" class="band-watermark"></div>
+          </div>
+
+          <div id="lanyard-slot" class="lanyard-slot"></div>
+
+          <div class="card-content">
+            <div class="wordmark-area">
+              <img id="logo-img" class="logo-img" alt="" hidden>
+              <div id="wordmark-text" class="wordmark-text">HALA</div>
+            </div>
+
+            <div id="photo-frame" class="photo-frame">
+              <img id="photo-img" class="photo-img" alt="" hidden draggable="false">
+              <div id="photo-placeholder" class="photo-placeholder">صورة</div>
+            </div>
+
+            <div id="name-block" class="text-block" hidden>
+              <div id="name-ar" class="name-ar" dir="rtl"></div>
+              <div id="name-en" class="name-en" dir="ltr"></div>
+            </div>
+
+            <div class="text-block">
+              <div class="label-ar" dir="rtl">القسم:</div>
+              <div id="dept-ar" class="value-ar" dir="rtl">تقنية المعلومات</div>
+              <div id="dept-en" class="value-en" dir="ltr">Information Technology</div>
+            </div>
+
+            <div class="text-block">
+              <div class="label-ar" dir="rtl">الرقم الوظيفي:</div>
+              <div id="emp-id" class="value-id" dir="ltr">ID-784532</div>
+            </div>
+
+            <div class="qr-wrap">
+              <canvas id="qr-canvas" width="240" height="240"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="scale-note">المعاينة بالحجم الحقيقي (53.98 × 85.6 مم)</p>
+    </div>
+
+    <div class="actions">
+      <button type="button" id="btn-print" class="btn-primary">طباعة</button>
+      <button type="button" id="btn-pdf" class="btn-primary">تنزيل PDF</button>
+      <button type="button" id="btn-png" class="btn-primary">تنزيل PNG</button>
+    </div>
+    <p id="export-status" class="export-status" role="status"></p>
+  </section>
+
+</main>
+
+<footer class="app-footer">
+  <p>يعمل بالكامل في المتصفح — لا تُرفع أي بيانات إلى الإنترنت.</p>
+</footer>
+
+<script src="vendor/qrcode.js"></script>
+<script src="vendor/jspdf.umd.min.js"></script>
+<script src="vendor/html2canvas.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
