@@ -14,6 +14,10 @@ Downloaded via `npm pack <name>@<version>` and copied out of the resulting
 tarball's `dist/` (or package root for qrcode-generator) — no build step is
 required to use them, they are loaded directly as classic `<script>` tags.
 
-The self-hosted Arabic/Latin font (`assets/fonts/`) is Cairo, obtained the
-same way from the `@fontsource/cairo` npm package (SIL Open Font License —
-see `assets/fonts/OFL-LICENSE.txt`).
+The self-hosted Arabic/Latin font (`assets/fonts/`) is IBM Plex Sans Arabic,
+obtained the same way from the `@fontsource/ibm-plex-sans-arabic` npm package
+(SIL Open Font License — see `assets/fonts/OFL-LICENSE.txt`).
+
+`assets/hala-logo.svg` is the client-provided HALA logo vector, inlined into
+the DOM as `<svg><path fill="currentColor">` so it can be recolored per
+instance (wordmark vs. band watermark) and stays crisp at print resolution.

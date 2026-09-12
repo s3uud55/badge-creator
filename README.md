@@ -53,12 +53,15 @@ style.css            layout, card design, print rules
 app.js               all logic: state, color derivation, photo pan/zoom,
                       QR rendering, PDF/PNG/print export
 vendor/               vendored third-party libraries (see vendor/README.md)
-assets/fonts/         self-hosted Cairo font (Arabic + Latin), OFL license
+assets/fonts/         self-hosted IBM Plex Sans Arabic font (Arabic + Latin), OFL license
+assets/hala-logo.svg  client logo vector (inlined as <svg><path> for recoloring)
 ```
 
 ## Customizing for another brand
 
 Everything about the visual identity is editable from the form: brand name,
-logo image, and brand color. The mint side-band, watermark tint, and paper
-background are all derived automatically from the picked brand color, so the
-same template can be reused for other departments or companies.
+logo image, and brand color. The mint side-band and the Arabic label/value
+colors are all derived automatically from the picked brand color, using the
+same relationships the default HALA palette expresses, so the same template
+can be reused for other departments or companies. QR modules always stay a
+fixed near-black regardless of brand color, to protect scan contrast.

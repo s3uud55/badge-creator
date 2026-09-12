@@ -56,24 +56,33 @@
     }
     return '#' + toHex(r) + toHex(g) + toHex(b);
   }
+  // The deltas below are fit to the exact HALA reference palette: applying
+  // them to the default brand color (#1D5D57) reproduces the spec's band,
+  // label and value hexes exactly. Picking a different brand color carries
+  // the same hue/saturation/lightness relationships forward. QR modules are
+  // NEVER derived here — they stay fixed at #14302D regardless of brand.
   function derivePalette(baseHex) {
     var rgb = hexToRgb(baseHex);
     var hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
     var h = hsl.h, s = hsl.s, l = hsl.l;
-    var mid = hslToHex(h, s * 0.72, l + 26);
-    var mint = hslToHex(h, s * 0.81, l + 44.5);
-    var paper = hslToHex(h, s * 0.56, Math.min(l + 66.5, 97));
-    var watermark = hslToHex(h, s * 0.60, Math.min(l + 56.5, 92));
-    return { deep: baseHex, mid: mid, mint: mint, paper: paper, watermark: watermark };
+    return {
+      deep: baseHex,
+      bandTop: hslToHex(h - 7.4, s * 0.624, l + 53.9),
+      bandBottom: hslToHex(h - 8.3, s * 0.589, l + 48.8),
+      label: hslToHex(h - 2.4, s * 0.738, l + 10.0),
+      value: hslToHex(h - 1.9, s * 0.871, l - 10.2),
+      valueEn: hslToHex(h - 1.9, s * 0.526, l - 1.2)
+    };
   }
   function applyPalette(hex) {
     var p = derivePalette(hex);
     var root = document.documentElement.style;
     root.setProperty('--brand-deep', p.deep);
-    root.setProperty('--brand-mid', p.mid);
-    root.setProperty('--brand-mint', p.mint);
-    root.setProperty('--brand-paper', p.paper);
-    root.setProperty('--brand-watermark', p.watermark);
+    root.setProperty('--brand-band-top', p.bandTop);
+    root.setProperty('--brand-band-bottom', p.bandBottom);
+    root.setProperty('--brand-label', p.label);
+    root.setProperty('--brand-value', p.value);
+    root.setProperty('--brand-value-en', p.valueEn);
   }
 
   /* ============================================================
@@ -81,7 +90,7 @@
    * ========================================================== */
   var state = {
     brand: 'HALA',
-    color: '#2E6B63',
+    color: '#1D5D57',
     logoDataUrl: null,
     nameAr: '',
     nameEn: '',
@@ -126,10 +135,9 @@
 
     exportRoot: document.getElementById('export-root'),
     card: document.getElementById('card'),
-    bandWatermark: document.getElementById('band-watermark'),
     lanyardSlot: document.getElementById('lanyard-slot'),
     logoImg: document.getElementById('logo-img'),
-    wordmarkText: document.getElementById('wordmark-text'),
+    wordmarkLogo: document.getElementById('wordmark-logo'),
     photoFrame: document.getElementById('photo-frame'),
     photoImg: document.getElementById('photo-img'),
     photoPlaceholder: document.getElementById('photo-placeholder'),
@@ -140,6 +148,7 @@
     deptEn2: document.getElementById('dept-en'),
     empId2: document.getElementById('emp-id'),
     qrCanvas: document.getElementById('qr-canvas'),
+    qrCenterLabel: document.getElementById('qr-center-label'),
 
     btnPrint: document.getElementById('btn-print'),
     btnPdf: document.getElementById('btn-pdf'),
@@ -175,23 +184,10 @@
   }
 
   /* ============================================================
-   * Watermark band text
-   * ========================================================== */
-  function updateBandWatermark() {
-    var word = (state.brand || 'HALA').trim() || 'HALA';
-    var count = 5;
-    el.bandWatermark.textContent = '';
-    for (var i = 0; i < count; i++) {
-      var span = document.createElement('span');
-      span.className = 'watermark-word';
-      span.style.top = (((i + 0.5) / count) * 100).toFixed(2) + '%';
-      span.textContent = word;
-      el.bandWatermark.appendChild(span);
-    }
-  }
-
-  /* ============================================================
-   * QR code rendering
+   * QR code rendering — modules only. The center brand box and its
+   * "HALA" label are real DOM/CSS (.qr-center / #qr-center-label) so
+   * they stay crisp text at print resolution instead of canvas-drawn
+   * pixels; this function just leaves a matching rectangular gap.
    * ========================================================== */
   function renderQr() {
     var text = (state.qrText || '').trim() || (state.empId || '').trim() || (state.brand || 'HALA');
@@ -213,51 +209,32 @@
     }
     var count = qr.getModuleCount();
     var cell = size / count;
-    var moduleColor = '#111111'; // near-black: scan contrast must not depend on the picked brand color
+    var moduleColor = '#14302D'; // fixed per spec — never derived from brand color
 
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, size, size);
     ctx.fillStyle = moduleColor;
 
-    // reserve a blank square in the center for the brand mark
-    var holeSpan = Math.floor(count * 0.30);
-    var holeStart = Math.floor((count - holeSpan) / 2);
-    var holeEnd = holeStart + holeSpan;
+    // reserve a blank rectangle in the center for the brand mark:
+    // 34% wide x 24% tall of the module field, centered — matches the
+    // .qr-center overlay's left:33%/top:38%/width:34%/height:24%.
+    var holeColSpan = Math.round(count * 0.34);
+    var holeRowSpan = Math.round(count * 0.24);
+    var holeColStart = Math.round((count - holeColSpan) / 2);
+    var holeRowStart = Math.round((count - holeRowSpan) / 2);
+    var holeColEnd = holeColStart + holeColSpan;
+    var holeRowEnd = holeRowStart + holeRowSpan;
 
     for (var row = 0; row < count; row++) {
       for (var col = 0; col < count; col++) {
-        var inHole = row >= holeStart && row < holeEnd && col >= holeStart && col < holeEnd;
+        var inHole = row >= holeRowStart && row < holeRowEnd && col >= holeColStart && col < holeColEnd;
         if (qr.isDark(row, col) && !inHole) {
           ctx.fillRect(Math.round(col * cell), Math.round(row * cell), Math.ceil(cell), Math.ceil(cell));
         }
       }
     }
 
-    // white rounded box + brand initials in the center
-    var boxSize = holeSpan * cell;
-    var boxX = holeStart * cell;
-    var boxY = holeStart * cell;
-    var radius = boxSize * 0.16;
-    ctx.fillStyle = '#ffffff';
-    roundRect(ctx, boxX, boxY, boxSize, boxSize, radius);
-    ctx.fill();
-
-    ctx.fillStyle = moduleColor;
-    var label = (state.brand || 'HALA').trim().slice(0, 6) || 'HALA';
-    var fontSize = Math.max(10, Math.round(boxSize * 0.34));
-    ctx.font = '700 ' + fontSize + 'px Cairo, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(label, boxX + boxSize / 2, boxY + boxSize / 2 + fontSize * 0.04);
-  }
-  function roundRect(ctx, x, y, w, h, r) {
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.arcTo(x + w, y, x + w, y + h, r);
-    ctx.arcTo(x + w, y + h, x, y + h, r);
-    ctx.arcTo(x, y + h, x, y, r);
-    ctx.arcTo(x, y, x + w, y, r);
-    ctx.closePath();
+    el.qrCenterLabel.textContent = (state.brand || 'HALA').trim().slice(0, 6) || 'HALA';
   }
 
   /* ============================================================
@@ -265,24 +242,28 @@
    * ========================================================== */
   function render() {
     applyPalette(state.color);
-    updateBandWatermark();
 
-    // wordmark / logo
+    // wordmark: the real HALA vector by default; a user-uploaded logo
+    // replaces it in the same 26.00 x 8.37mm box. The band watermark is
+    // always the fixed vector mark regardless of this choice.
     if (state.logoDataUrl) {
       el.logoImg.src = state.logoDataUrl;
       el.logoImg.hidden = false;
-      el.wordmarkText.hidden = true;
+      el.wordmarkLogo.hidden = true;
     } else {
       el.logoImg.hidden = true;
       el.logoImg.removeAttribute('src');
-      el.wordmarkText.hidden = false;
-      el.wordmarkText.textContent = (state.brand || 'HALA').trim() || 'HALA';
+      el.wordmarkLogo.hidden = false;
     }
 
-    // name block
+    // name block — also switches the card between Layout A (no name)
+    // and Layout B (name present); nothing above the photo moves.
     var nameAr = state.nameAr.trim();
     var nameEn = state.nameEn.trim();
-    if (nameAr || nameEn) {
+    var hasName = !!(nameAr || nameEn);
+    el.card.classList.toggle('layout-a', !hasName);
+    el.card.classList.toggle('layout-b', hasName);
+    if (hasName) {
       el.nameBlock.hidden = false;
       el.nameAr2.textContent = nameAr;
       el.nameAr2.hidden = !nameAr;
@@ -372,7 +353,8 @@
       startOffsetX = state.photo.offsetX;
       startOffsetY = state.photo.offsetY;
       var rect = el.photoFrame.getBoundingClientRect();
-      mmPerPx = 22 / rect.width; // frame is 22mm wide
+      var frameMm = el.card.classList.contains('layout-b') ? 20 : 22.5;
+      mmPerPx = frameMm / rect.width;
       el.photoFrame.classList.add('dragging');
     }
     function pointerMove(clientX, clientY) {

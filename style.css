@@ -1,61 +1,66 @@
 /* ===================== Fonts (self-hosted, offline) ===================== */
 @font-face {
-  font-family: 'Cairo';
+  font-family: 'IBM Plex Sans Arabic';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('assets/fonts/cairo-arabic-400-normal.woff2') format('woff2');
-  unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC;
+  src: url('assets/fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2') format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
 }
 @font-face {
-  font-family: 'Cairo';
+  font-family: 'IBM Plex Sans Arabic';
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   font-display: swap;
-  src: url('assets/fonts/cairo-arabic-600-normal.woff2') format('woff2');
-  unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC;
+  src: url('assets/fonts/ibm-plex-sans-arabic-arabic-500-normal.woff2') format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
 }
 @font-face {
-  font-family: 'Cairo';
+  font-family: 'IBM Plex Sans Arabic';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('assets/fonts/cairo-arabic-700-normal.woff2') format('woff2');
-  unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC;
+  src: url('assets/fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2') format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
 }
 @font-face {
-  font-family: 'Cairo';
+  font-family: 'IBM Plex Sans Arabic';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('assets/fonts/cairo-latin-400-normal.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC;
+  src: url('assets/fonts/ibm-plex-sans-arabic-latin-400-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Cairo';
+  font-family: 'IBM Plex Sans Arabic';
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   font-display: swap;
-  src: url('assets/fonts/cairo-latin-600-normal.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC;
+  src: url('assets/fonts/ibm-plex-sans-arabic-latin-500-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Cairo';
+  font-family: 'IBM Plex Sans Arabic';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('assets/fonts/cairo-latin-700-normal.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC;
+  src: url('assets/fonts/ibm-plex-sans-arabic-latin-700-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 /* ===================== Tokens ===================== */
 :root{
   color-scheme: light;
-  --brand-deep: #2E6B63;
-  --brand-mid: #6FAFA4;
-  --brand-mint: #A9D3CA;
-  --brand-paper: #F4F8F6;
-  --brand-watermark: #CFE6E0;
+  /* brand-derived card tokens — defaults reproduce the exact spec hexes;
+     applyPalette() in app.js recomputes these from a user-picked color
+     using the same HSL relationships. */
+  --brand-deep: #1D5D57;      /* wordmark + QR centre box */
+  --brand-band-top: #B4D9D1;
+  --brand-band-bottom: #A4CFC5;
+  --brand-label: #35786F;     /* Arabic field labels */
+  --brand-value: #13332F;     /* Arabic values + ID */
+  --brand-value-en: #2A4A46;  /* English values */
+
   --text-dark: #24322D;
   --text-gray: #8A9793;
   --ui-bg: #EEF3F1;
@@ -66,7 +71,7 @@
   --card-w: 53.98mm;
   --card-h: 85.6mm;
   --bleed: 3mm;
-  --band-w: 10mm;
+  --band-w: 12.5mm;
 }
 
 *, *::before, *::after{ box-sizing: border-box; }
@@ -77,7 +82,7 @@ html, body{
   padding: 0;
   background: var(--ui-bg);
   color: var(--ui-text);
-  font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
 }
 
 /* ===================== Page chrome ===================== */
@@ -183,7 +188,7 @@ html, body{
 }
 .field input[type="text"]:focus,
 .field input[type="color"]:focus{
-  outline: 2px solid var(--brand-mid);
+  outline: 2px solid var(--brand-deep);
   outline-offset: 1px;
 }
 
@@ -199,9 +204,9 @@ html, body{
 
 .btn-secondary{
   display: inline-block;
-  background: var(--brand-mint);
+  background: var(--brand-band-top);
   color: var(--text-dark);
-  border: 1px solid var(--brand-mid);
+  border: 1px solid var(--brand-deep);
   border-radius: 8px;
   padding: 7px 14px;
   font-size: 0.85rem;
@@ -227,7 +232,7 @@ html, body{
   margin-bottom: 8px;
 }
 .photo-drop.dragover{
-  border-color: var(--brand-mid);
+  border-color: var(--brand-deep);
   background: var(--ui-bg);
 }
 .photo-drop p{ margin: 0 0 8px; }
@@ -252,7 +257,7 @@ html, body{
   position: relative;
   width: var(--card-w);
   height: var(--card-h);
-  background: var(--brand-paper);
+  background: #E4EFEC;
   box-shadow: 0 3px 14px rgba(20, 40, 35, 0.28), 0 1px 2px rgba(20,40,35,.15);
 }
 .export-root.bleed-on{
@@ -283,105 +288,104 @@ html, body{
   top: 0;
   width: var(--card-w);
   height: var(--card-h);
-  background: var(--brand-paper);
-  border-radius: 1.6mm;
+  background: linear-gradient(160deg, #F7FBFA 0%, #EDF5F2 55%, #E4EFEC 100%);
+  border-radius: 3mm;
   overflow: hidden;
-  direction: rtl;
 }
 .export-root.bleed-on .card{
   left: var(--bleed);
   top: var(--bleed);
 }
 
+/* ---- Left mint band (x 0, y 0, w 12.50mm, full height) ---- */
 .card-band{
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
   width: var(--band-w);
-  background: var(--brand-mint);
-  overflow: hidden;
+  background: linear-gradient(180deg, var(--brand-band-top) 0%, var(--brand-band-bottom) 100%);
   z-index: 1;
-}
-.band-watermark{
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-.watermark-word{
-  position: absolute;
-  left: 50%;
-  width: 24mm;
-  text-align: center;
-  transform: translate(-50%, -50%) rotate(-90deg);
-  transform-origin: center center;
-  white-space: nowrap;
-  font-weight: 700;
-  font-size: 3.4mm;
-  letter-spacing: 0.06em;
-  color: var(--brand-watermark);
-  direction: ltr;
+  /* deliberately NOT overflow:hidden — the watermark glyphs bleed
+     2mm past the band's right edge onto the card body; only the
+     card's own overflow:hidden clips them. */
 }
 
+/* Watermark: the real logo mark repeated, rotated -90deg so it reads
+   bottom-to-top. Geometry mirrors the design spec's raw values so the
+   bleed and repeat pitch are exact, not approximated. */
+.band-watermark{
+  position: absolute;
+  left: 3.5mm;
+  top: 88mm;
+  width: 170mm;
+  height: 11mm;
+  transform: rotate(-90deg);
+  transform-origin: 0 0;
+  display: flex;
+  align-items: center;
+  gap: 8mm;
+  opacity: 0.42;
+  pointer-events: none;
+}
+.watermark-logo{
+  flex: 0 0 auto;
+  width: 34.2mm;
+  height: 11mm;
+  color: #FFFFFF;
+}
+
+/* ---- Lanyard slot guide: preview-only, never printed/exported ---- */
 .lanyard-slot{
   position: absolute;
-  left: 50%;
+  left: 21mm;
   top: 4mm;
-  transform: translateX(-50%);
   width: 12mm;
   height: 3mm;
   border-radius: 1.5mm;
-  border: 0.25mm dashed var(--brand-mid);
-  background: rgba(255,255,255,0.35);
+  background: #EEF1F0;
+  box-shadow: inset 0 0 0 0.3mm #C3D4D0;
   z-index: 3;
 }
 .lanyard-slot.hidden-slot{ display: none; }
 
-.card-content{
-  position: relative;
-  z-index: 2;
-  height: 100%;
-  margin-inline-start: var(--band-w);
-  padding: 9mm 2.6mm 3mm;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2mm;
-}
-
+/* ---- Wordmark: logo SVG, left-aligned, identical in both layouts ---- */
 .wordmark-area{
+  position: absolute;
+  left: 16mm;
+  top: 10.8mm;
+  width: 26mm;
+  height: 8.37mm;
+  z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 5mm;
-  margin-bottom: 0.5mm;
+  justify-content: flex-start;
 }
-.wordmark-text{
-  font-weight: 700;
-  font-size: 4.4mm;
-  letter-spacing: 0.16em;
+.wordmark-logo{
+  width: 100%;
+  height: 100%;
   color: var(--brand-deep);
-  direction: ltr;
 }
 .logo-img{
-  max-height: 6mm;
-  max-width: 30mm;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
+  object-position: left center;
 }
 
+/* ---- Photo frame: A = 22.5x22.5 @ (21.5,23.5); B = 20x20 @ (22.8,21.5) ---- */
 .photo-frame{
-  position: relative;
-  width: 22mm;
-  height: 25mm;
-  border: 0.3mm solid #C9D2CE;
-  border-radius: 0.8mm;
+  position: absolute;
+  border: 0.35mm solid #C6D6D2;
+  border-radius: 1mm;
   overflow: hidden;
   background: #E7ECEA;
-  flex: 0 0 auto;
   touch-action: none;
   cursor: grab;
+  z-index: 2;
 }
+#card.layout-a .photo-frame{ left: 21.5mm; top: 23.5mm; width: 22.5mm; height: 22.5mm; }
+#card.layout-b .photo-frame{ left: 22.8mm; top: 21.5mm; width: 20mm; height: 20mm; }
 .photo-frame.dragging{ cursor: grabbing; }
 .photo-placeholder{
   position: absolute;
@@ -390,7 +394,7 @@ html, body{
   align-items: center;
   justify-content: center;
   color: #9AA6A1;
-  font-size: 2.6mm;
+  font-size: 2.4mm;
 }
 .photo-img{
   position: absolute;
@@ -404,53 +408,125 @@ html, body{
   -webkit-user-drag: none;
 }
 
-.text-block{
-  text-align: center;
-  line-height: 1.35;
+/* ---- Text column: x 16.00, w 33.50mm, right-aligned ---- */
+.name-block{
+  /* toggled via [hidden]; a plain wrapper so name-ar/name-en position
+     themselves against #card, not against this box */
+  display: contents;
+}
+.label-ar, .value-ar, .value-en, .value-id{
+  position: absolute;
+  left: 16mm;
+  width: 33.5mm;
+  text-align: right;
+  z-index: 2;
 }
 .label-ar{
-  font-size: 2.3mm;
-  color: var(--brand-deep);
-  font-weight: 600;
+  font-weight: 500;
+  font-size: 2.6mm;
+  line-height: 3.6mm;
+  color: var(--brand-label);
 }
 .value-ar{
-  font-size: 2.9mm;
-  color: var(--text-dark);
   font-weight: 700;
+  font-size: 3.3mm;
+  line-height: 4.4mm;
+  color: var(--brand-value);
 }
 .value-en{
-  font-size: 2.2mm;
-  color: var(--text-gray);
   font-weight: 400;
+  font-size: 2.4mm;
+  line-height: 3mm;
+  color: var(--brand-value-en);
 }
 .value-id{
-  font-size: 3mm;
-  color: var(--text-dark);
   font-weight: 700;
-  direction: ltr;
+  font-size: 3.3mm;
+  line-height: 4.4mm;
+  letter-spacing: 0.01em;
+  color: var(--brand-value);
+}
+.name-ar, .name-en{
+  position: absolute;
+  left: 16mm;
+  width: 33.5mm;
+  text-align: right;
+  z-index: 2;
 }
 .name-ar{
-  font-size: 3mm;
-  color: var(--text-dark);
   font-weight: 700;
+  font-size: 3.3mm;
+  line-height: 4.4mm;
+  color: var(--brand-value);
 }
 .name-en{
-  font-size: 2.2mm;
-  color: var(--text-gray);
   font-weight: 400;
-  direction: ltr;
+  font-size: 2.4mm;
+  line-height: 3mm;
+  color: var(--brand-value-en);
 }
 
+/* Layout A field positions (no name block) */
+#card.layout-a .field-dept-label{ top: 48.2mm; }
+#card.layout-a .field-dept-value-ar{ top: 52mm; }
+#card.layout-a .field-dept-value-en{ top: 56.5mm; }
+#card.layout-a .field-id-label{ top: 60.7mm; }
+#card.layout-a .field-id-value{ top: 64.5mm; }
+
+/* Layout B field positions (name block present) */
+#card.layout-b #name-ar{ top: 42.6mm; }
+#card.layout-b #name-en{ top: 47.1mm; }
+#card.layout-b .field-dept-label{ top: 51.3mm; }
+#card.layout-b .field-dept-value-ar{ top: 55.1mm; }
+#card.layout-b .field-dept-value-en{ top: 59.6mm; }
+#card.layout-b .field-id-label{ top: 63.6mm; }
+#card.layout-b .field-id-value{ top: 67.4mm; }
+
+/* ---- QR block: A = 11.5x11.5 @ (27,71), quiet zone 1.2mm;
+   B = 9.5x9.5 @ (28,73.3), quiet zone 1.0mm ---- */
 .qr-wrap{
-  margin-top: auto;
-  width: 13mm;
-  height: 13mm;
+  position: absolute;
+  background: #FFFFFF;
+  box-sizing: border-box;
+  z-index: 2;
 }
-.qr-wrap canvas{
+#card.layout-a .qr-wrap{ left: 27mm; top: 71mm; width: 11.5mm; height: 11.5mm; padding: 1.2mm; }
+#card.layout-b .qr-wrap{ left: 28mm; top: 73.3mm; width: 9.5mm; height: 9.5mm; padding: 1mm; }
+.qr-modules-wrap{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.qr-modules-wrap canvas{
   width: 100%;
   height: 100%;
   display: block;
 }
+.qr-center{
+  position: absolute;
+  left: 33%;
+  top: 38%;
+  width: 34%;
+  height: 24%;
+  background: var(--brand-deep);
+  border-radius: 0.3mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+#card.layout-a .qr-center{ border: 0.35mm solid #FFFFFF; }
+#card.layout-b .qr-center{ border: 0.3mm solid #FFFFFF; }
+#qr-center-label{
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: #FFFFFF;
+  white-space: nowrap;
+  direction: ltr;
+}
+#card.layout-a #qr-center-label{ font-size: 0.95mm; }
+#card.layout-b #qr-center-label{ font-size: 0.8mm; }
 
 .scale-note{
   font-size: 0.75rem;
