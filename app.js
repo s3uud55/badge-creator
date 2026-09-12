@@ -2,96 +2,9 @@
   'use strict';
 
   /* ============================================================
-   * Color helpers — derive the mint band / paper / watermark tints
-   * from a single user-picked brand color, matching the ratios of
-   * the HALA reference palette.
-   * ========================================================== */
-  function hexToRgb(hex) {
-    hex = hex.replace('#', '');
-    if (hex.length === 3) hex = hex.split('').map(function (c) { return c + c; }).join('');
-    var num = parseInt(hex, 16);
-    return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
-  }
-  function rgbToHsl(r, g, b) {
-    r /= 255; g /= 255; b /= 255;
-    var max = Math.max(r, g, b), min = Math.min(r, g, b);
-    var h, s, l = (max + min) / 2;
-    if (max === min) { h = s = 0; }
-    else {
-      var d = max - min;
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      switch (max) {
-        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-        case g: h = (b - r) / d + 2; break;
-        default: h = (r - g) / d + 4; break;
-      }
-      h /= 6;
-    }
-    return { h: h * 360, s: s * 100, l: l * 100 };
-  }
-  function hue2rgb(p, q, t) {
-    if (t < 0) t += 1;
-    if (t > 1) t -= 1;
-    if (t < 1 / 6) return p + (q - p) * 6 * t;
-    if (t < 1 / 2) return q;
-    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-    return p;
-  }
-  function hslToHex(h, s, l) {
-    h = ((h % 360) + 360) % 360 / 360;
-    s = Math.max(0, Math.min(100, s)) / 100;
-    l = Math.max(0, Math.min(100, l)) / 100;
-    var r, g, b;
-    if (s === 0) { r = g = b = l; }
-    else {
-      var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-      var p = 2 * l - q;
-      r = hue2rgb(p, q, h + 1 / 3);
-      g = hue2rgb(p, q, h);
-      b = hue2rgb(p, q, h - 1 / 3);
-    }
-    function toHex(v) {
-      var x = Math.round(v * 255).toString(16);
-      return x.length === 1 ? '0' + x : x;
-    }
-    return '#' + toHex(r) + toHex(g) + toHex(b);
-  }
-  // The deltas below are fit to the exact HALA reference palette: applying
-  // them to the default brand color (#1D5D57) reproduces the spec's band,
-  // label and value hexes exactly. Picking a different brand color carries
-  // the same hue/saturation/lightness relationships forward. QR modules are
-  // NEVER derived here — they stay fixed at #14302D regardless of brand.
-  function derivePalette(baseHex) {
-    var rgb = hexToRgb(baseHex);
-    var hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-    var h = hsl.h, s = hsl.s, l = hsl.l;
-    return {
-      deep: baseHex,
-      bandTop: hslToHex(h - 7.4, s * 0.624, l + 53.9),
-      bandBottom: hslToHex(h - 8.3, s * 0.589, l + 48.8),
-      label: hslToHex(h - 2.4, s * 0.738, l + 10.0),
-      value: hslToHex(h - 1.9, s * 0.871, l - 10.2),
-      valueEn: hslToHex(h - 1.9, s * 0.526, l - 1.2)
-    };
-  }
-  function applyPalette(hex) {
-    var p = derivePalette(hex);
-    var root = document.documentElement.style;
-    root.setProperty('--brand-deep', p.deep);
-    root.setProperty('--brand-band-top', p.bandTop);
-    root.setProperty('--brand-band-bottom', p.bandBottom);
-    root.setProperty('--brand-label', p.label);
-    root.setProperty('--brand-value', p.value);
-    root.setProperty('--brand-value-en', p.valueEn);
-  }
-
-  /* ============================================================
    * State
    * ========================================================== */
   var state = {
-    brand: 'HALA',
-    color: '#1D5D57',
-    logoDataUrl: null,
     nameAr: '',
     nameEn: '',
     deptAr: 'تقنية المعلومات',
@@ -114,10 +27,6 @@
    * Element refs
    * ========================================================== */
   var el = {
-    brand: document.getElementById('f-brand'),
-    logo: document.getElementById('f-logo'),
-    logoClear: document.getElementById('f-logo-clear'),
-    color: document.getElementById('f-color'),
     nameAr: document.getElementById('f-name-ar'),
     nameEn: document.getElementById('f-name-en'),
     deptAr: document.getElementById('f-dept-ar'),
@@ -136,8 +45,6 @@
     exportRoot: document.getElementById('export-root'),
     card: document.getElementById('card'),
     lanyardSlot: document.getElementById('lanyard-slot'),
-    logoImg: document.getElementById('logo-img'),
-    wordmarkLogo: document.getElementById('wordmark-logo'),
     photoFrame: document.getElementById('photo-frame'),
     photoImg: document.getElementById('photo-img'),
     photoPlaceholder: document.getElementById('photo-placeholder'),
@@ -148,7 +55,6 @@
     deptEn2: document.getElementById('dept-en'),
     empId2: document.getElementById('emp-id'),
     qrCanvas: document.getElementById('qr-canvas'),
-    qrCenterLabel: document.getElementById('qr-center-label'),
 
     btnPrint: document.getElementById('btn-print'),
     btnPdf: document.getElementById('btn-pdf'),
@@ -157,40 +63,13 @@
   };
 
   /* ============================================================
-   * localStorage — brand identity only (no employee/personal data)
-   * ========================================================== */
-  var STORAGE_KEY = 'badge-creator:brand-settings-v1';
-  function saveBrandSettings() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        brand: state.brand,
-        color: state.color,
-        logoDataUrl: state.logoDataUrl
-      }));
-    } catch (e) { /* private browsing / storage disabled — ignore */ }
-  }
-  function loadBrandSettings() {
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      var saved = JSON.parse(raw);
-      if (saved.brand) { state.brand = saved.brand; el.brand.value = saved.brand; }
-      if (saved.color) { state.color = saved.color; el.color.value = saved.color; }
-      if (saved.logoDataUrl) {
-        state.logoDataUrl = saved.logoDataUrl;
-        el.logoClear.hidden = false;
-      }
-    } catch (e) { /* corrupt data — ignore */ }
-  }
-
-  /* ============================================================
    * QR code rendering — modules only. The center brand box and its
    * "HALA" label are real DOM/CSS (.qr-center / #qr-center-label) so
    * they stay crisp text at print resolution instead of canvas-drawn
    * pixels; this function just leaves a matching rectangular gap.
    * ========================================================== */
   function renderQr() {
-    var text = (state.qrText || '').trim() || (state.empId || '').trim() || (state.brand || 'HALA');
+    var text = (state.qrText || '').trim() || (state.empId || '').trim() || 'HALA';
     var canvas = el.qrCanvas;
     var ctx = canvas.getContext('2d');
     var size = canvas.width; // square, internal resolution
@@ -233,29 +112,12 @@
         }
       }
     }
-
-    el.qrCenterLabel.textContent = (state.brand || 'HALA').trim().slice(0, 6) || 'HALA';
   }
 
   /* ============================================================
    * Render — push state into the DOM preview
    * ========================================================== */
   function render() {
-    applyPalette(state.color);
-
-    // wordmark: the real HALA vector by default; a user-uploaded logo
-    // replaces it in the same 26.00 x 8.37mm box. The band watermark is
-    // always the fixed vector mark regardless of this choice.
-    if (state.logoDataUrl) {
-      el.logoImg.src = state.logoDataUrl;
-      el.logoImg.hidden = false;
-      el.wordmarkLogo.hidden = true;
-    } else {
-      el.logoImg.hidden = true;
-      el.logoImg.removeAttribute('src');
-      el.wordmarkLogo.hidden = false;
-    }
-
     // name block — also switches the card between Layout A (no name)
     // and Layout B (name present); nothing above the photo moves.
     var nameAr = state.nameAr.trim();
@@ -421,36 +283,6 @@
    * Form wiring
    * ========================================================== */
   function bindForm() {
-    el.brand.addEventListener('input', function () {
-      state.brand = el.brand.value;
-      render();
-      saveBrandSettings();
-    });
-    el.color.addEventListener('input', function () {
-      state.color = el.color.value;
-      render();
-      saveBrandSettings();
-    });
-    el.logo.addEventListener('change', function () {
-      var file = el.logo.files && el.logo.files[0];
-      if (!file) return;
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        state.logoDataUrl = e.target.result;
-        el.logoClear.hidden = false;
-        render();
-        saveBrandSettings();
-      };
-      reader.readAsDataURL(file);
-    });
-    el.logoClear.addEventListener('click', function () {
-      state.logoDataUrl = null;
-      el.logo.value = '';
-      el.logoClear.hidden = true;
-      render();
-      saveBrandSettings();
-    });
-
     el.nameAr.addEventListener('input', function () { state.nameAr = el.nameAr.value; render(); });
     el.nameEn.addEventListener('input', function () { state.nameEn = el.nameEn.value; render(); });
     el.deptAr.addEventListener('input', function () { state.deptAr = el.deptAr.value; render(); });
@@ -502,10 +334,9 @@
   }
 
   function renderExportCanvas() {
-    // the lanyard-slot guide is a preview-only positioning aid — never let it
-    // reach a rasterized export, regardless of the checkbox state.
-    var wasSlotHidden = el.lanyardSlot.classList.contains('hidden-slot');
-    el.lanyardSlot.classList.add('hidden-slot');
+    // the lanyard-slot guide (when the checkbox is on) marks where the
+    // badge gets punched, so it belongs in the rasterized export too —
+    // it is captured exactly as shown in the live preview.
     return waitForFontsAndPaint().then(function () {
       return html2canvas(el.exportRoot, {
         backgroundColor: '#ffffff',
@@ -513,8 +344,6 @@
         useCORS: true,
         logging: false
       });
-    }).finally(function () {
-      el.lanyardSlot.classList.toggle('hidden-slot', wasSlotHidden);
     });
   }
 
@@ -585,7 +414,6 @@
    * Init
    * ========================================================== */
   function init() {
-    loadBrandSettings();
     bindForm();
     setupPhotoDrag();
     setupPhotoDropZone();

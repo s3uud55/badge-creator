@@ -15,8 +15,8 @@ optional 3 mm bleed and crop marks for professional print shops.
 
 1. Open `index.html` in a browser (works straight from disk, or hosted on
    GitHub Pages — see below).
-2. Fill in the form on the right: brand name/logo/color, employee name,
-   department (Arabic + English), and employee ID.
+2. Fill in the form on the right: employee name, department (Arabic +
+   English), and employee ID.
 3. Upload a photo — drag it into the photo frame or use the file picker.
    After uploading, drag the photo inside its frame to reposition it and use
    the zoom slider to crop it in, since photos are never auto-cropped.
@@ -32,10 +32,9 @@ optional 3 mm bleed and crop marks for professional print shops.
      300+ DPI.
    - **تنزيل PNG** — a 300+ DPI PNG raster of the card.
 
-The brand name, logo, and brand color are remembered in the browser
-(`localStorage`) so HR doesn't have to re-enter them each time. Employee
-names, department, ID, and photos are **never** stored — they reset on
-reload.
+The brand identity (HALA logo and palette) is fixed in the template, not
+stored in the browser. Employee names, department, ID, and photos are
+**never** stored — they reset on reload.
 
 ## Publishing to GitHub Pages
 
@@ -50,18 +49,28 @@ reload.
 ```
 index.html          the app shell (form + preview)
 style.css            layout, card design, print rules
-app.js               all logic: state, color derivation, photo pan/zoom,
-                      QR rendering, PDF/PNG/print export
+app.js               all logic: state, photo pan/zoom, QR rendering,
+                      PDF/PNG/print export
 vendor/               vendored third-party libraries (see vendor/README.md)
 assets/fonts/         self-hosted IBM Plex Sans Arabic font (Arabic + Latin), OFL license
-assets/hala-logo.svg  client logo vector (inlined as <svg><path> for recoloring)
+assets/hala-logo.svg  client logo vector (inlined as <svg><path>, recolored via CSS)
 ```
 
-## Customizing for another brand
+## Brand identity
 
-Everything about the visual identity is editable from the form: brand name,
-logo image, and brand color. The mint side-band and the Arabic label/value
-colors are all derived automatically from the picked brand color, using the
-same relationships the default HALA palette expresses, so the same template
-can be reused for other departments or companies. QR modules always stay a
-fixed near-black regardless of brand color, to protect scan contrast.
+The HALA wordmark, band watermark, and palette are fixed in the template
+(`style.css` custom properties) — there is no brand name field, logo
+upload, or color picker in the form. QR modules always stay a fixed
+near-black (`#14302D`), independent of the rest of the palette, to protect
+scan contrast.
+
+## Updating `style.css` or `app.js`
+
+**Bump the `?v=` query string on the changed file's `<script>`/`<link>` tag
+in `index.html`, in the same commit.** There is no build step and no
+content hashing, so a stale browser cache will otherwise keep serving an
+old stylesheet or script against a new `index.html` — this has caused a
+real, silent, badly-broken page in production. Bumping the version forces
+browsers to fetch the new file instead of the cached one. The same applies
+to any vendored file in `vendor/` whose contents you replace in place
+(e.g. upgrading a library version without renaming the file).

@@ -34,7 +34,16 @@ GitHub Pages.
   offline.
 - Fonts are self-hosted in `assets/fonts/`. Arabic rendering must not depend on
   a network request.
-- UI language is Arabic (RTL) with English secondary labels.
+- UI language is Arabic (RTL) with English secondary labels, in the masculine
+  second-person form (not feminine) — this is a shared HR tool, not addressed
+  to one person.
+- **`index.html` loads `style.css` and `app.js` with a `?v=N` query string.
+  Whoever changes either file MUST bump its `?v=N` in `index.html` in the same
+  commit** (e.g. `style.css?v=2` → `?v=3`). There is no build step and no
+  content hashing, so without this a browser serving a stale cached
+  `style.css`/`app.js` against a new `index.html` breaks the page silently
+  and badly (this has happened in production). The same applies to any
+  `vendor/*.js` file whose contents you replace in place.
 
 ## Card spec
 
@@ -42,6 +51,9 @@ GitHub Pages.
   Optional 3 mm bleed + crop marks for print shops.
 - Print output must be exact physical size: `@page { size: 53.98mm 85.6mm;
   margin: 0 }`, no browser scaling.
-- Brand defaults (HALA): deep teal `#2E6B63`, mid teal `#6FAFA4`, light mint
-  `#A9D3CA`, paper `#F4F8F6`. Brand color and name are user-editable so the
-  template is reusable.
+- Brand identity is **fixed**, not user-editable: the HALA logo is inlined as
+  an SVG (`assets/hala-logo.svg`) and the palette is fixed spec hexes as CSS
+  custom properties in `style.css` (deep teal `#1D5D57`, band `#B4D9D1` →
+  `#A4CFC5`, labels `#35786F`, values `#13332F`, English `#2A4A46`). There is
+  no brand-name field, logo upload, or color picker in the form — do not
+  re-add them without an explicit request.
