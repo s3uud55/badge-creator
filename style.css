@@ -520,13 +520,19 @@ html, body{
 #qr-center-label{
   font-family: 'IBM Plex Sans Arabic', sans-serif;
   font-weight: 500;
-  letter-spacing: 0.08em;
   color: #FFFFFF;
   white-space: nowrap;
   direction: ltr;
 }
-#card.layout-a #qr-center-label{ font-size: 0.95mm; }
-#card.layout-b #qr-center-label{ font-size: 0.8mm; }
+/* Sizes below are fitted, not the spec's literal 0.95mm/0.8mm at 0.08em
+   tracking: at the spec'd box (34% of a 9.1mm/7.5mm module field, minus
+   its own white keyline) that combination is wider than the box, so
+   "HALA" spills onto the QR modules. Dropping the tracking to 0 and
+   sizing down until the rendered text is comfortably inside the
+   keyline (checked via getBoundingClientRect, not eyeballed) keeps the
+   label legible with visible margin on both sides in both layouts. */
+#card.layout-a #qr-center-label{ font-size: 0.75mm; letter-spacing: 0; }
+#card.layout-b #qr-center-label{ font-size: 0.6mm; letter-spacing: 0; }
 
 .scale-note{
   font-size: 0.75rem;
